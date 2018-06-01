@@ -6,7 +6,7 @@ def readme():
 
 setup(name='gastonSyslogFW',
       version='1.0',
-      description=readme(),
+      long_description=readme(),
       url='https://github.com/ybovard/gastonSyslogFW',
       author='Yves Bovard',
       author_email='ybovard@gmail.com',
