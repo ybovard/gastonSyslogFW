@@ -7,4 +7,5 @@ setup(name='gastonSyslogFW',
       author='Yves Bovard',
       author_email='ybovard@gmail.com',
       packages=['gastonSyslogFW'],
+      install_requires=[ 'requests', ],
       zip_safe=False)
