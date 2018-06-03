@@ -6,14 +6,10 @@ import socketserver
 import requests
 
 class SyslogUDPHandler(socketserver.BaseRequestHandler):
-  # list of destinations represented by strings. For exemple:
-  destinationList=[]
-
-  # list of compiled regexp. When matched, the given message will be discarded/ignored
-  ignoreList=[]
 
   def _isInIgnoreList(self,msg):
-    for regex in self.ignoreList:
+    #print("checking message: {}".format(msg))
+    for regex in self.server.ignoreList:
       if regex.match(msg) is not None:
         return True
     return False
@@ -23,8 +19,6 @@ class SyslogUDPHandler(socketserver.BaseRequestHandler):
     data = {'log': bytes.decode(self.request[0].strip())}
     socket = self.request[1]
     if not self._isInIgnoreList(str(data)):
-        logging.debug( "{}(sent) : {}".format(self.client_address[0], str(data)))
-        for dest in self.destinationList:
+        #print('send : {}'.format(str(data)))
+        for dest in self.server.destinationList:
             r = requests.post(dest, data = data)
-    else:
-        logging.debug( "{}(ignored) : {}".format(self.client_address[0], str(data)))
