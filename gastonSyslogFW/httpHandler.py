@@ -6,7 +6,7 @@ import socketserver
 import requests
 import logging
 
-class SyslogUDPHandler(socketserver.BaseRequestHandler):
+class HTTPHandler(socketserver.BaseRequestHandler):
 
   def _isInIgnoreList(self,msg):
     #print("checking message: {}".format(msg))
