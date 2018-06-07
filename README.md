@@ -6,7 +6,27 @@ It is also able to filter message, in order not to send every syslog message on 
 # Pre-requisite
 * python3
 
-# Usage as daemon
+# Direct usage
+```
+# gastonSyslogFW [--debug]
+```
+The process is configured via a JSON configuration file named gastonSyslogFW.conf located in the current directory, in /etc or /usr/local/etc. Here is an exemple:
+```
+cat gastonSyslogFW.conf
+{
+  "listen": "127.0.0.1",
+  "port": 514,
+  "destination": [
+    "http://127.0.0.1:8080/hubot/notify/all/"
+  ],
+  "ignore": [
+    ".* crond\\[.*",
+    ".* sshd\\[.*",
+    ".* sudo: .*"
+  ]
+}
+```
+
 
 # Usage in script
 ```
