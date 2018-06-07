@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 
+import sys
 import gastonSyslogFW
 import socketserver
 import re
 import json
+import argparse
+import logging
 
 def defaultConfig():
     config={}
@@ -47,13 +50,31 @@ def getConfig(path=None):
 
 if __name__ == "__main__":
     config=getConfig()
+
+    #override with command line parameter
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--debug", help="verbose debug message", action="store_true")
+    args=parser.parse_args()
     
+    if args.debug:
+        config['debug']=True
+        logging.basicConfig(level=logging.DEBUG)
+    else:
+        logging.basicConfig(level=logging.INFO)
+
+    logging.info("starting process") 
     try:
+        logging.debug("socker server creation") 
         server = socketserver.UDPServer((config['listen'],config['port']), gastonSyslogFW.SyslogUDPHandler)
         server.destinationList=config['destination']
         server.ignoreList=config['ignore']
+
+        logging.info("listening") 
         server.serve_forever(poll_interval=0.5)
-    except (IOError, SystemExit):
-        raise
+    except (IOError, SystemExit) as e:
+        logging.critical("recieved {}: {}".format(e.__class__.__name__, e))
+        raise e
     except KeyboardInterrupt:
-        print ("Crtl+C Pressed. Shutting down.")
+        logging.critical("recieved CTRL-C event")
+
+    logging.critical("process stopped")
