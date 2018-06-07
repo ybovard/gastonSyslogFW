@@ -15,5 +15,9 @@ setup(name='gastonSyslogFW',
       include_package_data=True,
       test_suite='nose.collector',
       tests_require=['nose'],
-      scripts=['sbin/gastonSyslogFW']
+      entry_points={
+        'console_scripts': [
+           'gastonSyslogFW=gastonSyslogFW:main ',
+        ],
+      },
       zip_safe=False)
