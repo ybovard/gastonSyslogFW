@@ -1,0 +1,21 @@
+#!/sbin/runscript
+# Copyright 1999-2016 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+# $Id$
+
+depend() {
+  need net
+  provide gastonSyslogFW
+}
+
+start() {
+  ebegin "Starting gastonSyslogFW"
+  start-stop-daemon --start --background --pidfile /var/run/gastonSyslogFW.pid --make-pidfile --stdout /var/log/gastonSyslogFW.log --stderr /var/log/gastonSyslogFW.log --exec "/usr/bin/gastonSyslogFW"
+  eend $?
+}
+
+stop() {
+  ebegin "Stopping gastonSyslogFW"
+  start-stop-daemon --stop --pidfile /var/run/gastonSyslogFW.pid --exec "/usr/bin/gastonSyslogFW"
+  eend $?
+}
