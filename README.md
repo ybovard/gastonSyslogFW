@@ -17,7 +17,7 @@ cat gastonSyslogFW.conf
   "listen": "127.0.0.1",
   "port": 514,
   "destination": [
-    "http://127.0.0.1:8080/hubot/notify/all/"
+    {"type": "http", "url": "http://127.0.0.1:8080/hubot/notify/all/"}
   ],
   "ignore": [
     ".* crond\\[.*",
@@ -32,7 +32,7 @@ cat gastonSyslogFW.conf
 ```
     try:
         server = socketserver.UDPServer(('127.0.0.1',514), gastonSyslogFW.SyslogUDPHandler)
-        server.destinationList=['https://myhubot.example.com/all/']
+        server.destinationList=[{"type": "http", "url": 'https://myhubot.example.com/all/'}]
         server.ignoreList=['.* sshd\[.*']
         server.serve_forever(poll_interval=0.5)
     except (IOError, SystemExit):
