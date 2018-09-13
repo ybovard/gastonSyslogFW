@@ -4,7 +4,7 @@ import re
 import json
 import argparse
 import logging
-from .httpHandler import HTTPHandler
+from .syslogFWHandler import SyslogFWHandler
 
 def defaultConfig():
     config={}
@@ -63,7 +63,7 @@ def main():
     logging.info("starting process") 
     try:
         logging.debug("socker server creation") 
-        server = socketserver.UDPServer((config['listen'],config['port']), HTTPHandler)
+        server = socketserver.UDPServer((config['listen'],config['port']), SyslogFWHandler)
         server.destinationList=config['destination']
         server.ignoreList=config['ignore']
 
